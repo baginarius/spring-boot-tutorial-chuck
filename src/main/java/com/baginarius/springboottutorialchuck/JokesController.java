@@ -1,14 +1,24 @@
 package com.baginarius.springboottutorialchuck;
 
+import guru.springframework.norris.chuck.ChuckNorrisQuotes;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 public class JokesController {
 
-    @RequestMapping("/")
-    public String getJoke(){
-        return "Nic śmiesznego";
+    private ChuckNorrisQuotes chuckNorrisQuotes;
+
+    public JokesController(ChuckNorrisQuotes chuckNorrisQuotes) {
+        this.chuckNorrisQuotes = chuckNorrisQuotes;
     }
+
+    @RequestMapping("/")
+    public String getJoke(Model model) {
+        String randomQuote = chuckNorrisQuotes.getRandomQuote();
+        model.addAttribute("joke", randomQuote);
+        return "chucknorris";
+    }
+
 }
